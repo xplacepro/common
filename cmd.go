@@ -48,7 +48,7 @@ func RunCommand(cmd_name string, args []string) (string, error) {
 	cmd.Stderr = cmdErr
 
 	err := cmd.Run() // will wait for command to return
-	printError(err.Error(), string(cmdErr.Bytes()))
+	printError(err, string(cmdErr.Bytes()))
 	result := string(cmdOutput.Bytes())
 	printOutput(result)
 	if err == nil {
