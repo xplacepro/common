@@ -22,9 +22,9 @@ func printCommand(cmd *exec.Cmd) {
 	log.Printf("==> Executing: %s\n", strings.Join(cmd.Args, " "))
 }
 
-func printError(err error) {
+func printError(err error, message string) {
 	if err != nil {
-		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
+		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s, %s\n", err.Error(), message))
 	}
 }
 
@@ -48,7 +48,7 @@ func RunCommand(cmd_name string, args []string) (string, error) {
 	cmd.Stderr = cmdErr
 
 	err := cmd.Run() // will wait for command to return
-	printError(err)
+	printError(err.Error(), string(cmdErr.Bytes()))
 	result := string(cmdOutput.Bytes())
 	printOutput(result)
 	if err == nil {
