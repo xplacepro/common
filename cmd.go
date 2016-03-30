@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-	"unicode"
+	// "unicode"
 )
 
 type RunError struct {
@@ -61,7 +61,8 @@ func RunCommand(cmd_name string, args []string) (string, error) {
 
 func ParseValues(data string, eq_sign rune, comment_sign byte) map[string]string {
 	splitter := func(c rune) bool {
-		return unicode.IsSpace(c) || c == eq_sign
+		// return unicode.IsSpace(c) || c == eq_sign
+		return c == eq_sign
 	}
 
 	values := make(map[string]string)
@@ -69,7 +70,7 @@ func ParseValues(data string, eq_sign rune, comment_sign byte) map[string]string
 	for _, line := range lines {
 		splitted := strings.FieldsFunc(line, splitter)
 		if len(splitted) >= 2 && len(splitted[0]) > 0 && splitted[0][0] != comment_sign {
-			values[splitted[0]] = splitted[1]
+			values[strings.Trim(splitted[0], " ")] = strings.Trim(splitted[1], " ")
 		}
 	}
 
